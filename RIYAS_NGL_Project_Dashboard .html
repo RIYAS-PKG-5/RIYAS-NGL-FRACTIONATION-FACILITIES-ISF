@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RIYAS NGL — Project Control Dashboard · Week 164</title>
+<title>RIYAS NGL — Project Control Dashboard · Week 171</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#edf1f7;--panel:#ffffff;--navy:#0d2137;--blue:#1a4a8a;
+    --bg:#edf1f7;--panel:#fff;--navy:#0d2137;--blue:#1a4a8a;
     --accent:#0077b6;--accent2:#005f99;--green:#0a9e8a;
     --red:#d62839;--gold:#e07b20;--text:#1a2b3c;
     --muted:#5a7a96;--border:#dce6f0;
@@ -18,43 +18,26 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh}
 
-  /* HEADER */
-  .header{
-    background:linear-gradient(135deg,#0d2137 0%,#1a4a8a 100%);
-    padding:0 32px;display:flex;align-items:center;justify-content:space-between;
-    height:70px;box-shadow:0 4px 20px rgba(0,30,80,0.28);
-    position:sticky;top:0;z-index:100;
-  }
+  .header{background:linear-gradient(135deg,#0d2137 0%,#1a4a8a 100%);padding:0 32px;
+    display:flex;align-items:center;justify-content:space-between;height:70px;
+    box-shadow:0 4px 20px rgba(0,30,80,0.28);position:sticky;top:0;z-index:100}
   .header-left{display:flex;align-items:center;gap:16px}
-  .logo-badge{
-    width:46px;height:46px;border-radius:8px;
-    background:rgba(255,255,255,0.14);border:2px solid rgba(255,255,255,0.28);
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;
-  }
+  .logo-badge{width:46px;height:46px;border-radius:8px;background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28);display:flex;align-items:center;justify-content:center;
+    font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px}
   .header-title{font-family:'Rajdhani',sans-serif;font-size:21px;font-weight:700;letter-spacing:2px;color:#fff}
   .header-sub{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
   .header-right{display:flex;align-items:center;gap:20px}
-  .report-tag{
-    background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.28);
-    padding:6px 18px;border-radius:6px;
-    font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;color:#fff;
-  }
+  .report-tag{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.28);
+    padding:6px 18px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;color:#fff}
   .cutoff{font-size:11px;color:rgba(255,255,255,0.6);text-align:right}
   .cutoff strong{color:#fff;font-size:14px;display:block}
 
-  /* LAYOUT */
   .main{padding:22px 28px;max-width:1680px;margin:0 auto}
-
-  /* SECTION TITLE */
-  .section-title{
-    font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;
+  .section-title{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;
     letter-spacing:3px;text-transform:uppercase;color:var(--accent);
-    border-left:3px solid var(--accent);padding-left:10px;
-    margin-bottom:14px;margin-top:26px;
-  }
+    border-left:3px solid var(--accent);padding-left:10px;margin-bottom:14px;margin-top:26px}
 
-  /* STATUS CHIPS */
   .status-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
   .chip{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;
     letter-spacing:.8px;padding:4px 13px;border-radius:20px;border:1px solid currentColor}
@@ -63,13 +46,10 @@
   .chip-red{color:#d62839;background:rgba(214,40,57,0.08)}
   .chip-gold{color:#e07b20;background:rgba(224,123,32,0.08)}
 
-  /* KPI GRID */
   .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-  .kpi{
-    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:10px;
     padding:16px 18px;position:relative;overflow:hidden;
-    box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;
-  }
+    box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
   .kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow2)}
   .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;
     background:linear-gradient(90deg,var(--accent2),var(--accent))}
@@ -79,65 +59,72 @@
   .kpi-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
   .kpi-value{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;line-height:1;color:var(--text)}
   .kpi-sub{font-size:11px;color:var(--muted);margin-top:6px}
-  .kpi-delta{display:inline-flex;align-items:center;gap:4px;
-    font-size:11px;font-weight:600;padding:2px 8px;border-radius:3px;margin-top:5px}
+  .kpi-delta{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+    padding:2px 8px;border-radius:3px;margin-top:5px}
   .kpi-delta.neg{background:rgba(214,40,57,.1);color:var(--red)}
   .kpi-delta.pos{background:rgba(10,158,138,.1);color:var(--green)}
+  .kpi-delta.warn{background:rgba(224,123,32,.1);color:var(--gold)}
 
-  /* PROGRESS BARS */
   .pbar-track{height:6px;background:#e8eef5;border-radius:3px;overflow:hidden;margin-top:4px}
-  .pbar-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+  .pbar-fill{height:100%;border-radius:3px;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
   .fill-blue{background:linear-gradient(90deg,var(--accent2),var(--accent))}
   .fill-green{background:linear-gradient(90deg,#067a6a,var(--green))}
   .fill-gold{background:linear-gradient(90deg,#a85a0a,var(--gold))}
 
-  /* PANELS */
   .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
   .panel-title{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;
-    letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);
-    margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px}
   .panel-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
-
-  /* GRIDS */
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
 
-  /* BUILDING TABLE */
   .bld-table{width:100%;border-collapse:collapse}
-  .bld-table th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-    color:var(--muted);padding:7px 8px;border-bottom:2px solid var(--border);
-    text-align:left;font-weight:600;background:#f8fafd}
-  .bld-table td{padding:6px 8px;font-size:11.5px;border-bottom:1px solid #f0f4f8}
+  .bld-table th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+    padding:7px 8px;border-bottom:2px solid var(--border);text-align:left;font-weight:600;
+    background:#f8fafd;position:sticky;top:0;z-index:1}
+  .bld-table td{padding:6px 8px;font-size:11.5px;border-bottom:1px solid #f0f4f8;vertical-align:middle}
   .bld-table tr:hover td{background:#f4f8fd}
   .pct{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600}
-  .ahead{color:var(--green)} .behind{color:var(--gold)} .critical{color:var(--red)}
+  .ahead{color:var(--green)}.behind{color:var(--gold)}.critical{color:var(--red)}
   .spi-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block}
   .spi-good{background:#d1f5f0;color:#056b5c}
   .spi-warn{background:#fef3e2;color:#a85a0a}
   .spi-bad{background:#fde8ea;color:#9e1020}
+  .spi-na{background:#f0f4f8;color:var(--muted)}
   .mini-bar{height:5px;border-radius:3px;overflow:hidden;position:relative;background:#e8eef5;margin-top:3px}
-  .mini-plan{height:100%;background:rgba(0,119,182,0.3);position:absolute;border-radius:3px}
+  .mini-plan{height:100%;background:rgba(0,119,182,0.28);position:absolute;border-radius:3px}
   .mini-act{height:100%;position:absolute;border-radius:3px}
+  .chg-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:3px}
+  .chg-up{background:#d1f5f0;color:#056b5c}
+  .chg-dn{background:#fde8ea;color:#9e1020}
+  .chg-neu{background:#f0f4f8;color:var(--muted)}
 
-  /* CHART */
   .chart-wrap{position:relative;height:220px}
   .chart-wrap.tall{height:285px}
 
-  /* PROC */
-  .proc-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f4f8}
+  .proc-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f0f4f8}
   .proc-name{flex:1;font-size:12px;color:var(--text)}
-  .proc-pct{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;min-width:50px;text-align:right}
+  .proc-pct{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;min-width:52px;text-align:right}
   .proc-bar{flex:2;height:7px;background:#e8eef5;border-radius:4px;overflow:hidden}
   .proc-fill{height:100%;border-radius:4px}
 
-  /* STAT BOX */
   .stat-box{background:#f4f8fd;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
   .stat-label{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
   .stat-val{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--navy)}
 
-  /* TIMELINE */
+  .alert-box{background:#fff5f5;border:1px solid #f5c0c5;border-radius:8px;
+    padding:10px 14px;display:flex;align-items:flex-start;gap:10px}
+  .alert-box.warn{background:#fffbf0;border-color:#f0d080}
+  .alert-box.good{background:#f0fbf8;border-color:#a0ddd4}
+  .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  .alert-text{font-size:11.5px;color:var(--text);line-height:1.5}
+  .alert-text strong{color:var(--red)}
+  .alert-box.warn .alert-text strong{color:#a85a0a}
+  .alert-box.good .alert-text strong{color:var(--green)}
+
   .timeline{position:relative;padding-left:18px}
-  .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),transparent)}
+  .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;
+    background:linear-gradient(to bottom,var(--accent),transparent)}
   .tl-item{position:relative;padding:7px 0 7px 20px;border-bottom:1px solid #f0f4f8}
   .tl-item::before{content:'';position:absolute;left:-12px;top:13px;
     width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);background:#fff}
@@ -148,23 +135,24 @@
   .tl-date{font-size:10px;color:var(--muted);margin-top:1px}
   .tl-status{font-size:10px;font-weight:600;margin-top:2px}
 
-  /* SUMMARY TABLE */
   .sum-table{width:100%;border-collapse:collapse}
-  .sum-table th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-    color:#fff;padding:9px 10px;background:var(--blue);text-align:center;font-weight:600}
+  .sum-table th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;
+    padding:9px 10px;background:var(--blue);text-align:center;font-weight:600}
   .sum-table td{padding:8px 10px;font-size:11px;text-align:center;border-bottom:1px solid #f0f4f8}
   .sum-table tr:nth-child(even) td{background:#f8fafd}
   .sum-table tr:last-child td{background:#edf3fb;font-weight:700;font-size:12px}
   .var-pos{color:var(--green);font-weight:700}
   .var-neg{color:var(--red);font-weight:700}
 
-  /* FOOTER */
+  /* COUNTDOWN RING */
+  .countdown-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 0}
+  .ring-svg{width:90px;height:90px}
+
   .footer{text-align:center;padding:22px;color:var(--muted);font-size:11px;letter-spacing:1px;
     border-top:1px solid var(--border);margin-top:32px;background:#fff}
 
-  /* ANIM */
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   .fi{animation:fadeUp .45s ease forwards;opacity:0}
   .fi:nth-child(1){animation-delay:.05s}.fi:nth-child(2){animation-delay:.1s}
   .fi:nth-child(3){animation-delay:.15s}.fi:nth-child(4){animation-delay:.2s}
@@ -180,12 +168,12 @@
     <div class="logo-badge">ISF</div>
     <div>
       <div class="header-title">RIYAS NGL FRACTIONATION FACILITIES — ISF</div>
-      <div class="header-sub">Sinohydro Corporation Limited · Project Control Dashboard</div>
+      <div class="header-sub">Sinohydro Corporation Limited &nbsp;·&nbsp; Project Control Dashboard</div>
     </div>
   </div>
   <div class="header-right">
-    <div class="report-tag">WEEK <strong style="font-size:17px">164</strong> &nbsp;|&nbsp; WK NO. 146</div>
-    <div class="cutoff"><strong>25 JUL 2026</strong>Cut-off Date</div>
+    <div class="report-tag">WEEK <strong style="font-size:18px">171</strong>&nbsp;|&nbsp;WK NO. 153</div>
+    <div class="cutoff"><strong>12 SEP 2026</strong>Cut-off Date</div>
   </div>
 </div>
 
@@ -195,12 +183,13 @@
   <div class="section-title" style="margin-top:10px">PROJECT STATUS OVERVIEW</div>
   <div class="status-row">
     <span class="chip chip-blue">CONTRACT: ACTIVE</span>
-    <span class="chip chip-red">DELAY: -7.1% OVERALL</span>
+    <span class="chip chip-red">OVERALL DELAY: &minus;6.91%</span>
     <span class="chip chip-green">ENGINEERING: 100% COMPLETE ✓</span>
-    <span class="chip chip-gold">PROCUREMENT: 95.0% ACTUAL</span>
-    <span class="chip chip-red">CONSTRUCTION: -9.7% BEHIND PLAN</span>
-    <span class="chip chip-blue">DAYS REMAINING: 198</span>
-    <span class="chip chip-gold">SPI: 0.900</span>
+    <span class="chip chip-gold">PROCUREMENT: 96.08% ACTUAL</span>
+    <span class="chip chip-red">CONSTRUCTION: &minus;10.28% BEHIND PLAN</span>
+    <span class="chip chip-blue">DAYS REMAINING: 149</span>
+    <span class="chip chip-gold">SPI: 0.896</span>
+    <span class="chip chip-green">TIE IN CONNECTION: ▲+6.5% THIS WEEK</span>
   </div>
 
   <!-- KPI CARDS -->
@@ -208,10 +197,12 @@
 
     <div class="kpi fi">
       <div class="kpi-label">Overall Progress</div>
-      <div class="kpi-value" style="color:var(--accent)">91.6<span style="font-size:15px">%</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px"><span>Actual</span><span>Plan: 98.8%</span></div>
-      <div class="pbar-track"><div class="pbar-fill fill-blue" style="width:91.6%"></div></div>
-      <span class="kpi-delta neg">▼ &minus;7.10% vs Plan</span>
+      <div class="kpi-value" style="color:var(--accent)">92.7<span style="font-size:15px">%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px">
+        <span>Actual</span><span>Plan: 99.62%</span>
+      </div>
+      <div class="pbar-track"><div class="pbar-fill fill-blue" style="width:92.7%"></div></div>
+      <span class="kpi-delta neg">▼ &minus;6.91% vs Plan</span>
     </div>
 
     <div class="kpi green fi">
@@ -223,32 +214,38 @@
 
     <div class="kpi gold fi">
       <div class="kpi-label">Procurement</div>
-      <div class="kpi-value" style="color:var(--gold)">95.0<span style="font-size:15px">%</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px"><span>Actual</span><span>Plan: 100%</span></div>
-      <div class="pbar-track"><div class="pbar-fill fill-gold" style="width:95.0%"></div></div>
-      <span class="kpi-delta neg">▼ &minus;4.97%</span>
+      <div class="kpi-value" style="color:var(--gold)">96.1<span style="font-size:15px">%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px">
+        <span>Actual</span><span>Plan: 100%</span>
+      </div>
+      <div class="pbar-track"><div class="pbar-fill fill-gold" style="width:96.1%"></div></div>
+      <span class="kpi-delta warn">▼ &minus;3.92% &nbsp;↑ Improving</span>
     </div>
 
     <div class="kpi red fi">
       <div class="kpi-label">Construction</div>
-      <div class="kpi-value" style="color:var(--gold)">87.8<span style="font-size:15px">%</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px"><span>Actual</span><span>Plan: 97.5%</span></div>
-      <div class="pbar-track"><div class="pbar-fill fill-gold" style="width:87.8%"></div></div>
-      <span class="kpi-delta neg">▼ &minus;9.73%</span>
+      <div class="kpi-value" style="color:var(--gold)">89.0<span style="font-size:15px">%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:8px">
+        <span>Actual</span><span>Plan: 99.25%</span>
+      </div>
+      <div class="pbar-track"><div class="pbar-fill fill-gold" style="width:89.0%"></div></div>
+      <span class="kpi-delta neg">▼ &minus;10.28%</span>
     </div>
 
     <div class="kpi fi">
       <div class="kpi-label">SPI (Construction)</div>
-      <div class="kpi-value" style="color:var(--red)">0.900</div>
+      <div class="kpi-value" style="color:var(--red)">0.896</div>
       <div class="kpi-sub">Schedule Perf. Index</div>
       <span class="kpi-delta neg">▼ Below Target 1.00</span>
     </div>
 
     <div class="kpi fi">
       <div class="kpi-label">Days Elapsed / Remaining</div>
-      <div class="kpi-value" style="font-size:22px;color:var(--navy)">1,019 <span style="font-size:13px;color:var(--muted)">/</span> 198</div>
-      <div class="pbar-track" style="margin-top:10px"><div class="pbar-fill fill-blue" style="width:83.7%"></div></div>
-      <div class="kpi-sub">Start: 10-Oct-2023 · End: 08-Feb-2027</div>
+      <div class="kpi-value" style="font-size:22px;color:var(--navy)">1,068<span style="font-size:13px;color:var(--muted)">/</span>149</div>
+      <div class="pbar-track" style="margin-top:10px">
+        <div class="pbar-fill fill-blue" style="width:87.8%"></div>
+      </div>
+      <div class="kpi-sub">Start: 10-Oct-2023 &nbsp;·&nbsp; End: 08-Feb-2027</div>
     </div>
 
   </div>
@@ -275,23 +272,25 @@
 
     <!-- MANPOWER -->
     <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--green)"></span>Manpower & Man-Hours</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-        <div class="stat-box">
+      <div class="panel-title"><span class="dot" style="background:var(--green)"></span>Manpower &amp; Man-Hours</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="stat-box" style="border-color:rgba(214,40,57,0.3)">
           <div class="stat-label">Manpower Plan</div>
-          <div class="stat-val" style="color:var(--accent)">126</div>
+          <div class="stat-val" style="color:var(--red)">45</div>
+          <div style="font-size:9px;color:var(--red);margin-top:2px">▼ Down from 69 last week</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Man-Hrs Cumul.</div>
-          <div class="stat-val" style="color:var(--green)">1.865M</div>
+          <div class="stat-val" style="color:var(--green)">1.902M</div>
         </div>
-        <div class="stat-box">
+        <div class="stat-box" style="border-color:rgba(214,40,57,0.3)">
           <div class="stat-label">Man-Hrs This Week</div>
-          <div class="stat-val" style="color:var(--gold)">7,555</div>
+          <div class="stat-val" style="color:var(--red)">2,712</div>
+          <div style="font-size:9px;color:var(--red);margin-top:2px">▼ Down from 4,169</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Total Budgeted</div>
-          <div class="stat-val" style="color:var(--red)">2.136M</div>
+          <div class="stat-val" style="color:var(--navy)">2.136M</div>
         </div>
       </div>
       <div style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:8px;text-transform:uppercase">Monthly Manpower Trend</div>
@@ -303,13 +302,13 @@
       <div class="panel-title"><span class="dot" style="background:var(--gold)"></span>Procurement Progress by Category</div>
       <div class="proc-row">
         <span class="proc-name">Engineered Equipment — Inspectable</span>
-        <span class="proc-pct" style="color:var(--gold)">97.0%</span>
-        <div class="proc-bar"><div class="proc-fill" style="width:97%;background:linear-gradient(90deg,#a85a0a,var(--gold))"></div></div>
+        <span class="proc-pct" style="color:var(--gold)">98.5%</span>
+        <div class="proc-bar"><div class="proc-fill" style="width:98.5%;background:linear-gradient(90deg,#a85a0a,var(--gold))"></div></div>
       </div>
       <div class="proc-row">
         <span class="proc-name">Engineered Equipment — Non-Inspectable</span>
-        <span class="proc-pct" style="color:var(--gold)">93.1%</span>
-        <div class="proc-bar"><div class="proc-fill" style="width:93.1%;background:linear-gradient(90deg,#a85a0a,var(--gold))"></div></div>
+        <span class="proc-pct" style="color:var(--gold)">94.7%</span>
+        <div class="proc-bar"><div class="proc-fill" style="width:94.7%;background:linear-gradient(90deg,#a85a0a,var(--gold))"></div></div>
       </div>
       <div class="proc-row">
         <span class="proc-name">Civil / Structural Materials</span>
@@ -323,18 +322,22 @@
       </div>
       <div class="proc-row">
         <span class="proc-name">Overall Procurement</span>
-        <span class="proc-pct" style="color:var(--gold)">95.0%</span>
-        <div class="proc-bar"><div class="proc-fill" style="width:95%;background:linear-gradient(90deg,var(--accent2),var(--accent))"></div></div>
+        <span class="proc-pct" style="color:var(--gold)">96.1%</span>
+        <div class="proc-bar"><div class="proc-fill" style="width:96.1%;background:linear-gradient(90deg,var(--accent2),var(--accent))"></div></div>
       </div>
       <div style="margin-top:14px;background:#f8fafd;border-radius:8px;padding:12px">
         <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:5px">
-          <span>Plan Cumulative: 100.0%</span><span>Actual: 95.03%</span>
+          <span>Plan: 100.0%</span><span>Actual: 96.08%</span>
         </div>
         <div style="position:relative;height:10px;background:#e8eef5;border-radius:5px;overflow:hidden">
           <div style="position:absolute;height:100%;width:100%;background:rgba(0,119,182,0.18);border-radius:5px"></div>
-          <div style="position:absolute;height:100%;width:95.03%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:5px"></div>
+          <div style="position:absolute;height:100%;width:96.08%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:5px"></div>
         </div>
-        <div style="text-align:center;margin-top:6px;font-size:10px;color:var(--red);font-weight:600">▼ Variance: &minus;4.97%</div>
+        <div style="text-align:center;margin-top:6px;font-size:10px;font-weight:600">
+          <span style="color:var(--red)">▼ Variance: &minus;3.92%</span>
+          &nbsp;|&nbsp;
+          <span style="color:var(--green)">↑ 6th consecutive week improving</span>
+        </div>
       </div>
     </div>
 
@@ -345,41 +348,84 @@
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px">
         <div class="stat-box">
           <div class="stat-label">Prev Wk Plan</div>
-          <div class="stat-val" style="font-size:15px;color:var(--accent)">97.23%</div>
+          <div class="stat-val" style="font-size:15px;color:var(--accent)">99.10%</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">This Wk Actual</div>
-          <div class="stat-val" style="font-size:15px;color:var(--gold)">0.17%</div>
+          <div class="stat-val" style="font-size:15px;color:var(--gold)">0.131%</div>
         </div>
         <div class="stat-box" style="background:#fde8ea;border-color:#f5c0c5">
           <div class="stat-label" style="color:var(--red)">Variance</div>
-          <div class="stat-val" style="font-size:15px;color:var(--red)">-0.11%</div>
+          <div class="stat-val" style="font-size:15px;color:var(--red)">&minus;0.014%</div>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- CRITICAL ALERTS -->
+  <div class="section-title">ITEMS STATUS — CRITICAL / WATCH / IMPROVED</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px">
+    <div class="alert-box good">
+      <div class="alert-icon">✅</div>
+      <div class="alert-text"><strong>Tie In Connection — STRONG WEEK</strong><br>73.46% → <strong style="color:var(--green)">80.00%</strong> (+6.54%). Plan 59.15% — <strong style="color:var(--green)">20.85% AHEAD of plan</strong>. 2nd consecutive big week.</div>
+    </div>
+    <div class="alert-box good">
+      <div class="alert-icon">✅</div>
+      <div class="alert-text"><strong>Procurement 6th Consecutive Week ↑</strong><br>Variance narrowed to <strong style="color:var(--green)">&minus;3.92%</strong> (from &minus;4.03%). Consistent delivery momentum continues.</div>
+    </div>
+    <div class="alert-box good">
+      <div class="alert-icon">✅</div>
+      <div class="alert-text"><strong>Electrical Room Near Complete</strong><br>99.26% → <strong style="color:var(--green)">99.63%</strong> (+0.37%). Effectively complete — handover imminent.</div>
+    </div>
+    <div class="alert-box warn">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-text"><strong>Manpower Drop — Significant</strong><br>Plan dropped from 69 → <strong style="color:#a85a0a">45 persons</strong> this week. Man-hrs dropped 35% (4,169 → 2,712). May impact recovery pace of critical activities.</div>
+    </div>
+    <div class="alert-box">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>Land Scapes &amp; Hardscape — STALLED</strong><br>Plan 100% | Actual <strong>22.03%</strong> — <strong>ZERO PROGRESS</strong> for 2nd consecutive week. Variance <strong>&minus;78.0%</strong>. Emergency action required.</div>
+    </div>
+    <div class="alert-box">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>Heavy Equipment Parking — STALLED</strong><br>Plan 100% | Actual <strong>35.81%</strong> | Variance <strong>&minus;64.2%</strong>. Only +0.04% gained in 3 weeks.</div>
+    </div>
+    <div class="alert-box">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>Ambulance Parking (Clinic)</strong><br>Plan 100% | Actual <strong>40.30%</strong> | Variance <strong>&minus;59.7%</strong>. Critical facility for site operations — no meaningful progress.</div>
+    </div>
+    <div class="alert-box">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>Helipad Area</strong><br>Plan 100% | Actual <strong>61.14%</strong> | Variance <strong>&minus;38.9%</strong>. Only +0.10% this week. Contract completion at risk.</div>
+    </div>
+    <div class="alert-box">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>Road Works — Recovery Slowing</strong><br>Plan 100% | Actual <strong>50.81%</strong> (+0.13% only this week) | Variance <strong>&minus;49.2%</strong>. Pace must accelerate dramatically given 149 days remaining.</div>
+    </div>
+  </div>
+
   <!-- BUILDING COMPLETION -->
-  <div class="section-title">CONSTRUCTION — BUILDING COMPLETION STATUS (LEVEL 2)</div>
+  <div class="section-title">CONSTRUCTION — BUILDING &amp; FACILITY COMPLETION STATUS (LEVEL 2)</div>
   <div class="two-col">
 
     <div class="panel">
-      <div class="panel-title"><span class="dot"></span>Buildings Progress — Plan vs Actual</div>
-      <div class="chart-wrap" style="height:360px"><canvas id="buildingChart"></canvas></div>
+      <div class="panel-title"><span class="dot"></span>Facilities Progress — Plan vs Actual (Top 16)</div>
+      <div class="chart-wrap" style="height:370px"><canvas id="buildingChart"></canvas></div>
     </div>
 
     <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--gold)"></span>Building Completion Detail</div>
-      <div style="overflow-y:auto;max-height:380px">
+      <div class="panel-title"><span class="dot" style="background:var(--gold)"></span>All Facilities — Completion Detail &amp; Week-on-Week Change</div>
+      <div style="overflow-y:auto;max-height:390px">
         <table class="bld-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Building / Facility</th>
               <th>Plan%</th>
               <th>Actual%</th>
+              <th>WoW Δ</th>
               <th>SPI</th>
-              <th style="width:90px">Progress</th>
+              <th style="width:70px">Bar</th>
             </tr>
           </thead>
           <tbody id="bldTbody"></tbody>
@@ -399,7 +445,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--accent)"></span>Project Milestones & Timeline</div>
+      <div class="panel-title"><span class="dot" style="background:var(--accent)"></span>Project Milestones &amp; Timeline</div>
       <div class="timeline">
         <div class="tl-item done">
           <div class="tl-name">Engineering Complete</div>
@@ -407,9 +453,9 @@
           <div class="tl-status" style="color:var(--green)">✓ 100% COMPLETE</div>
         </div>
         <div class="tl-item done">
-          <div class="tl-name">Mobilization & TCF</div>
+          <div class="tl-name">Mobilization &amp; TCF</div>
           <div class="tl-date">Oct 2023 – Oct 2024</div>
-          <div class="tl-status" style="color:var(--green)">✓ 100.0% COMPLETE</div>
+          <div class="tl-status" style="color:var(--green)">✓ 99.99% COMPLETE</div>
         </div>
         <div class="tl-item done">
           <div class="tl-name">Precast Work</div>
@@ -419,37 +465,52 @@
         <div class="tl-item done">
           <div class="tl-name">Underground Utilities Corridors</div>
           <div class="tl-date">Nov 2024 – Jan 2026</div>
-          <div class="tl-status" style="color:var(--green)">✓ Plan 100% | Actual 99.2%</div>
+          <div class="tl-status" style="color:var(--green)">✓ Plan 100% | Actual 99.41%</div>
         </div>
         <div class="tl-item active">
           <div class="tl-name">Admin Building</div>
           <div class="tl-date">Jul 2024 – Aug 2026</div>
-          <div class="tl-status" style="color:var(--gold)">⟳ Plan 99.3% | Actual 83.4%  ▼&minus;15.9%</div>
+          <div class="tl-status" style="color:var(--gold)">⟳ Plan 100% | Actual 87.05% ▼&minus;12.95%</div>
         </div>
         <div class="tl-item late">
           <div class="tl-name">Fire Station Building</div>
           <div class="tl-date">Jul 2024 – Aug 2026</div>
-          <div class="tl-status" style="color:var(--red)">⚠ Plan 99.9% | Actual 83.3%  ▼&minus;16.6%</div>
+          <div class="tl-status" style="color:var(--red)">⚠ Plan 100% | Actual 85.12% ▼&minus;14.88%</div>
         </div>
         <div class="tl-item late">
           <div class="tl-name">Sanitary Liftstation</div>
           <div class="tl-date">Oct 2024 – Aug 2026</div>
-          <div class="tl-status" style="color:var(--red)">⚠ Plan 99.4% | Actual 64.6%  ▼&minus;34.8%</div>
+          <div class="tl-status" style="color:var(--red)">⚠ Plan 100% | Actual 67.12% ▼&minus;32.88%</div>
         </div>
         <div class="tl-item late">
           <div class="tl-name">Helipad Area</div>
           <div class="tl-date">Oct 2024 – Nov 2025</div>
-          <div class="tl-status" style="color:var(--red)">⚠ Plan 100% | Actual 60.4%  ▼&minus;39.6%</div>
+          <div class="tl-status" style="color:var(--red)">⚠ Plan 100% | Actual 61.14% ▼&minus;38.86%</div>
+        </div>
+        <div class="tl-item active">
+          <div class="tl-name">Road Works — Slow Recovery</div>
+          <div class="tl-date">In Progress</div>
+          <div class="tl-status" style="color:var(--gold)">⟳ Plan 100% | Actual 50.81% ▼&minus;49.2%</div>
+        </div>
+        <div class="tl-item done">
+          <div class="tl-name">Tie In Connection ↑ WELL AHEAD</div>
+          <div class="tl-date">In Progress</div>
+          <div class="tl-status" style="color:var(--green)">✅ Plan 59.15% | Actual 80.00% ▲+20.85%</div>
+        </div>
+        <div class="tl-item late">
+          <div class="tl-name">Land Scapes &amp; Hardscape</div>
+          <div class="tl-date">In Progress</div>
+          <div class="tl-status" style="color:var(--red)">⚠ Plan 100% | Actual 22.03% — STALLED ▼&minus;78.0%</div>
         </div>
         <div class="tl-item active">
           <div class="tl-name">Procurement Completion</div>
-          <div class="tl-date">Target: Jul 2026</div>
-          <div class="tl-status" style="color:var(--gold)">⟳ 95.03% Actual</div>
+          <div class="tl-date">Target: Sep 2026</div>
+          <div class="tl-status" style="color:var(--gold)">⟳ 96.08% ↑ 6 weeks improving</div>
         </div>
         <div class="tl-item">
           <div class="tl-name">Contract Completion</div>
           <div class="tl-date">08 February 2027</div>
-          <div class="tl-status" style="color:var(--muted)">198 days remaining</div>
+          <div class="tl-status" style="color:var(--muted)">149 days remaining</div>
         </div>
       </div>
     </div>
@@ -459,12 +520,10 @@
   <!-- ENGINEERING -->
   <div class="section-title">ENGINEERING PROGRESS REPORT</div>
   <div class="three-col">
-
     <div class="panel">
-      <div class="panel-title"><span class="dot" style="background:var(--green)"></span>Engineering Phases</div>
+      <div class="panel-title"><span class="dot" style="background:var(--green)"></span>Engineering Phases — Budget Distribution</div>
       <div class="chart-wrap" style="height:200px"><canvas id="engDonut"></canvas></div>
     </div>
-
     <div class="panel" style="grid-column:span 2">
       <div class="panel-title"><span class="dot"></span>Engineering Package Submissions — Budgeted Labor Units</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
@@ -509,11 +568,10 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- SUMMARY TABLE -->
-  <div class="section-title">PROGRESS SUMMARY TABLE — WEEK 164 / CUT-OFF 25-JUL-2026</div>
+  <div class="section-title">PROGRESS SUMMARY TABLE — WEEK 171 / CUT-OFF 12-SEP-2026</div>
   <div class="panel">
     <table class="sum-table">
       <thead>
@@ -537,116 +595,145 @@
         <tr>
           <td>2</td>
           <td style="text-align:left;font-weight:700;color:var(--gold)">Procurement</td>
-          <td>44.9%</td><td>100%</td><td>94.84%</td><td>0%</td><td>0.19%</td>
-          <td>100%</td><td>95.03%</td>
-          <td class="var-neg">&minus;4.97%</td>
-          <td><span class="chip chip-gold" style="font-size:9px">IN PROGRESS</span></td>
+          <td>44.9%</td><td>100%</td><td>95.97%</td><td>0%</td><td>0.110%</td>
+          <td>100%</td><td>96.08%</td>
+          <td class="var-neg">&minus;3.92%</td>
+          <td><span class="chip chip-gold" style="font-size:9px">IN PROGRESS ↑</span></td>
         </tr>
         <tr>
           <td>3</td>
           <td style="text-align:left;font-weight:700;color:var(--accent)">Construction</td>
-          <td>50.1%</td><td>97.23%</td><td>87.61%</td><td>0.28%</td><td>0.17%</td>
-          <td>97.51%</td><td>87.78%</td>
-          <td class="var-neg">&minus;9.73%</td>
+          <td>50.1%</td><td>99.10%</td><td>88.83%</td><td>0.145%</td><td>0.131%</td>
+          <td>99.25%</td><td>88.97%</td>
+          <td class="var-neg">&minus;10.28%</td>
           <td><span class="chip chip-red" style="font-size:9px">BEHIND</span></td>
         </tr>
         <tr>
           <td>4</td>
           <td style="text-align:left;font-weight:700">OVERALL PROGRESS</td>
-          <td>100%</td><td>98.61%</td><td>91.48%</td><td>0.14%</td><td>0.17%</td>
-          <td style="font-weight:700;color:var(--accent)">98.75%</td>
-          <td style="font-weight:700;color:var(--gold)">91.65%</td>
-          <td class="var-neg">&minus;7.10%</td>
-          <td><span class="chip chip-red" style="font-size:9px">RECOVERY</span></td>
+          <td>100%</td><td>99.55%</td><td>92.60%</td><td>0.073%</td><td>0.115%</td>
+          <td style="font-weight:700;color:var(--accent)">99.62%</td>
+          <td style="font-weight:700;color:var(--gold)">92.71%</td>
+          <td class="var-neg">&minus;6.91%</td>
+          <td><span class="chip chip-gold" style="font-size:9px">RECOVERY ↑</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-</div><!-- /main -->
+</div>
 
 <div class="footer">
   <span class="live"></span>&nbsp;
-  RIYAS NGL FRACTIONATION FACILITIES ISF &nbsp;·&nbsp; Project Control Dashboard &nbsp;·&nbsp;
-  Week 164 &nbsp;·&nbsp; Cut-off 25-Jul-2026 &nbsp;|&nbsp;
-  Contractor: Sinohydro Corporation Limited &nbsp;|&nbsp;
-  Contract Completion: 08-Feb-2027 &nbsp;|&nbsp; Days Remaining: 198
+  RIYAS NGL FRACTIONATION FACILITIES ISF &nbsp;·&nbsp; Project Control Dashboard
+  &nbsp;·&nbsp; Week 171 &nbsp;·&nbsp; Cut-off 12-Sep-2026
+  &nbsp;|&nbsp; Contractor: Sinohydro Corporation Limited
+  &nbsp;|&nbsp; Contract Completion: 08-Feb-2027 &nbsp;|&nbsp; Days Remaining: 149
 </div>
 
 <script>
-const BL=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0077b6';
-const GR='#0a9e8a', RD='#d62839', GD='#e07b20', MT='#5a7a96';
+const BL='#0077b6',GR='#0a9e8a',RD='#d62839',GD='#e07b20',MT='#5a7a96';
 const grid='rgba(0,60,120,0.07)';
-Chart.defaults.color=MT;Chart.defaults.borderColor=grid;
+Chart.defaults.color=MT; Chart.defaults.borderColor=grid;
 Chart.defaults.font.family="'Barlow',sans-serif";
 
-/* ── BUILDING DATA (Week 164 · 25-Jul-2026) ── */
+/* ── FACILITY DATA — Week 171 · 12-Sep-2026 ── */
 const bld=[
-  {n:'Admin Building',             p:99.3, a:83.4},
-  {n:'Dinning Building',            p:99.1, a:88.7},
-  {n:'Fire Station Building',       p:99.9, a:83.3},
-  {n:'Clinic Building',             p:98.2, a:82.3},
-  {n:'Communication Tower',         p:100.0,a:94.7},
-  {n:'Gas Station Building',        p:98.3, a:83.6},
-  {n:'Central Maintenance Shop',    p:95.9, a:80.7},
-  {n:'Hydro Test Shop (CMS)',        p:99.6, a:84.5},
-  {n:'Masjid Building',             p:100.0,a:86.8},
-  {n:'Sanitary Liftstation',        p:99.4, a:64.6},
-  {n:'Material Coord. Bldg',        p:100.0,a:87.5},
-  {n:'Chemical Storage Bldg',       p:100.0,a:86.5},
-  {n:'Emergency Gen. Building',     p:100.0,a:90.6},
-  {n:'Contractor Building',         p:99.5, a:84.9},
-  {n:'Emergency Gen. (Helipad)',    p:100.0,a:100.0},
-  {n:'Helipad Area',                p:100.0,a:60.4},
-  {n:'Equipment Shelter (FS)',      p:99.1, a:83.3},
-  {n:'Sun Shelter (CMS)',           p:99.3, a:88.4},
-  {n:'Fuel Dispenser Shelter',      p:97.5, a:73.1},
-  {n:'Fuel Storage Tanks',          p:99.9, a:78.9},
-  {n:'Test Pit & Shelter',          p:99.6, a:92.5},
-  {n:'Hose Drying Shelter (FS)',    p:94.2, a:90.1},
-  {n:'Cylinder Storage Shelter',    p:98.4, a:90.6},
-  {n:'Smoking Shelter',             p:100.0,a:95.7},
-  {n:'Bus Drop Off Shelter',        p:100.0,a:91.6},
+  {n:'MOBILIZATION & TCF',                p:100.00,a:99.99, prev:99.99},
+  {n:'Precast Work',                      p:100.00,a:100.00,prev:100.00},
+  {n:'Underground Utilities',             p:100.00,a:99.41, prev:99.41},
+  {n:'Admin Building',                    p:100.00,a:87.05, prev:86.79},
+  {n:'Dinning Building',                  p:99.82, a:90.21, prev:90.02},
+  {n:'Fire Station Building',             p:100.00,a:85.12, prev:85.01},
+  {n:'Clinic Building',                   p:99.15, a:84.62, prev:84.50},
+  {n:'Communication Tower',              p:100.00,a:94.71, prev:94.71},
+  {n:'Gas Station Building',             p:99.22, a:85.77, prev:85.64},
+  {n:'Central Maintenance Shop',         p:100.00,a:80.66, prev:82.00},
+  {n:'Hydro Test Shop (CMS)',             p:99.85, a:85.52, prev:85.41},
+  {n:'Masjid Building',                  p:100.00,a:87.83, prev:87.65},
+  {n:'Sanitary Liftstation',             p:100.00,a:67.12, prev:66.96},
+  {n:'Material Coordination Bldg',       p:100.00,a:88.42, prev:88.30},
+  {n:'Chemical Storage Building',        p:100.00,a:87.45, prev:87.40},
+  {n:'Emergency Generator Bldg',         p:100.00,a:92.88, prev:92.64},
+  {n:'Contractor Building',              p:99.95, a:86.40, prev:86.32},
+  {n:'Emergency Gen. (Helipad)',         p:100.00,a:99.97, prev:99.97},
+  {n:'Helipad Area',                     p:100.00,a:61.14, prev:61.04},
+  {n:'Equipment Shelter (FS)',           p:100.00,a:83.86, prev:83.73},
+  {n:'Sun Shelter (CMS)',                p:100.00,a:88.76, prev:88.72},
+  {n:'Fuel Dispenser Shelter',           p:99.03, a:74.83, prev:74.74},
+  {n:'Fuel Storage Tanks',               p:100.00,a:79.61, prev:79.57},
+  {n:'Test Pit & Shelter',               p:100.00,a:92.78, prev:92.74},
+  {n:'Hose Drying Shelter (FS)',         p:100.00,a:90.73, prev:90.46},
+  {n:'Cylinder Storage Shelter',         p:100.00,a:91.18, prev:90.91},
+  {n:'Smoking Shelter',                  p:100.00,a:96.10, prev:96.00},
+  {n:'Bus Drop Off Shelter',            p:100.00,a:91.75, prev:91.66},
+  {n:'Material Storage Laydown Yard',    p:100.00,a:61.06, prev:61.00},
+  {n:'Ambulance Parking (Clinic)',       p:100.00,a:40.30, prev:40.29},
+  {n:'Covered Trucks Parking',          p:100.00,a:84.71, prev:84.70},
+  {n:'Heavy Equipment Parking',         p:100.00,a:35.81, prev:35.77},
+  {n:'Trash Enclosure',                 p:100.00,a:84.50, prev:84.50},
+  {n:'Car Parking Space',               p:100.00,a:95.42, prev:95.41},
+  {n:'Electrical Room',                 p:100.00,a:99.63, prev:99.26},
+  {n:'Storm Water Pond',                p:100.00,a:95.33, prev:95.33},
+  {n:'Road Works',                      p:100.00,a:50.81, prev:50.68},
+  {n:'Street Lighting',                 p:100.00,a:93.58, prev:93.13},
+  {n:'Land Scapes & Hardscape',         p:100.00,a:22.03, prev:22.03},
+  {n:'Tie In Connection',               p:59.15, a:80.00, prev:73.46},
+  {n:'Maint. Shop Laydown Yard',        p:null,  a:61.15, prev:61.09},
+  {n:'Contractor Laydown Yard',         p:null,  a:62.35, prev:61.73},
+  {n:'Fire Station Training Yard',      p:null,  a:57.77, prev:57.71},
 ];
-bld.forEach(b=>b.spi=b.p>0?+(b.a/b.p).toFixed(3):1);
-
-/* ── BUILDING TABLE ── */
-const tb=document.getElementById('bldTbody');
 bld.forEach(b=>{
-  const d=b.a-b.p;
-  const sc=b.spi>=0.95?'spi-good':b.spi>=0.85?'spi-warn':'spi-bad';
-  const pc=b.a>=b.p?'ahead':b.a>=b.p-10?'behind':'critical';
-  tb.innerHTML+=`<tr>
-    <td style="font-weight:500">${b.n}</td>
-    <td class="pct" style="color:${BL}">${b.p.toFixed(1)}%</td>
+  b.spi=b.p>0?+(b.a/b.p).toFixed(3):null;
+  b.wow=+(b.a-b.prev).toFixed(2);
+});
+
+/* ── BUILD TABLE ── */
+const tb=document.getElementById('bldTbody');
+bld.forEach((b,idx)=>{
+  const d=b.p!==null?b.a-b.p:null;
+  const sc=b.spi===null?'spi-na':b.spi>=0.95?'spi-good':b.spi>=0.85?'spi-warn':'spi-bad';
+  const pc=b.p===null?'ahead':b.a>=b.p?'ahead':b.a>=b.p-10?'behind':'critical';
+  const rb=b.a<40?'background:#fff0f0':b.a<60?'background:#fff5f5':b.a<70?'background:#fffbf0':
+           (b.wow<-0.5?'background:#fff8f8':'');
+  const planTxt=b.p!==null?b.p.toFixed(1)+'%':'TBD';
+  const spiTxt=b.spi!==null?b.spi:'N/A';
+  const wowCls=b.wow>=1?'chg-up':b.wow>0.05?'chg-up':b.wow<=-0.5?'chg-dn':'chg-neu';
+  const wowTxt=b.wow>0.05?`+${b.wow}%`:b.wow<-0.05?`${b.wow}%`:'–';
+  const dTxt=d!==null?(d>=0?`<span style="color:${GR}">▲${Math.abs(d).toFixed(1)}%</span>`:
+    `<span style="color:${d>=-10?GD:RD}">▼${Math.abs(d).toFixed(1)}%</span>`):'<span style="color:var(--accent)">New</span>';
+  tb.innerHTML+=`<tr style="${rb}">
+    <td style="color:var(--muted);font-size:10px">${idx+1}</td>
+    <td style="font-weight:500;font-size:11px">${b.n}</td>
+    <td class="pct" style="color:${BL}">${planTxt}</td>
     <td class="pct ${pc}">${b.a.toFixed(1)}%</td>
-    <td><span class="spi-badge ${sc}">${b.spi}</span></td>
+    <td><span class="chg-badge ${wowCls}">${wowTxt}</span></td>
+    <td><span class="spi-badge ${sc}">${spiTxt}</span></td>
     <td>
       <div class="mini-bar">
-        <div class="mini-plan" style="width:${b.p}%"></div>
-        <div class="mini-act" style="width:${b.a}%;background:${b.a>=b.p?GR:b.a>=b.p-10?GD:RD}"></div>
+        ${b.p!==null?`<div class="mini-plan" style="width:${Math.min(b.p,100)}%"></div>`:''}
+        <div class="mini-act" style="width:${Math.min(b.a,100)}%;background:${b.p===null?BL:b.a>=b.p?GR:b.a>=b.p-10?GD:RD}"></div>
       </div>
-      <div style="font-size:9px;font-weight:600;color:${d>=0?GR:d>=-10?GD:RD}">${d>=0?'▲':'▼'}${Math.abs(d).toFixed(1)}%</div>
     </td></tr>`;
 });
 
 /* ── S-CURVE ── */
 (()=>{
-  const w=[1,10,20,30,40,50,60,70,80,90,100,110,120,129,140,147,155,162,164];
-  const pl=[1,3,7,12,18,26,35,44,54,62,70,76,82,87,91,93.2,96.5,98.5,98.75];
-  const ac=[1,3,7,12,18,26,35,44,53,61,68,73,78,82,85,87.2,89.5,91.3,91.65];
-  const bl=[1,3,7,12,17,25,33,42,51,59,67,74,80,86,89,93.2,96,98.5,98.75];
+  const wks=[1,10,20,30,40,50,60,70,80,90,100,110,120,129,140,147,155,162,164,167,168,169,170,171];
+  const pl= [1,3, 7,12,18,26,35,44,54,62,70,76,82,87,91,93.2,96.5,98.5,98.75,99.1,99.34,99.49,99.55,99.62];
+  const ac= [1,3, 7,12,18,26,35,44,53,61,68,73,78,82,85,87.2,89.5,91.3,91.65,92.15,92.30,92.47,92.60,92.71];
+  const bl= [1,3, 7,12,17,25,33,42,51,59,67,74,80,86,89,93.2,96,  98.5,98.75,99.1,99.34,99.49,99.55,99.62];
   new Chart(document.getElementById('scurveChart'),{type:'line',
-    data:{labels:w.map(x=>'Wk'+x),datasets:[
+    data:{labels:wks.map(x=>'Wk'+x),datasets:[
       {label:'Baseline',data:bl,borderColor:'rgba(0,60,120,0.22)',borderDash:[5,5],pointRadius:0,borderWidth:1.5,fill:false,tension:0.4},
-      {label:'Plan',data:pl,borderColor:BL,pointRadius:2,borderWidth:2,fill:false,tension:0.4},
-      {label:'Actual',data:ac,borderColor:GD,pointRadius:3,borderWidth:2.5,
+      {label:'Plan',   data:pl,borderColor:BL,pointRadius:2,borderWidth:2,fill:false,tension:0.4},
+      {label:'Actual', data:ac,borderColor:GD,pointRadius:3,borderWidth:2.5,
         fill:{target:'1',above:'rgba(224,123,32,0.05)',below:'rgba(214,40,57,0.07)'},tension:0.4},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:14,font:{size:11}}}},
       scales:{
-        x:{grid:{color:grid},ticks:{font:{size:9},maxTicksLimit:10}},
+        x:{grid:{color:grid},ticks:{font:{size:9},maxTicksLimit:12}},
         y:{grid:{color:grid},ticks:{font:{size:9},callback:v=>v+'%'},min:0,max:105}
       }}
   });
@@ -654,12 +741,12 @@ bld.forEach(b=>{
 
 /* ── RADAR ── */
 (()=>{
-  const lb=['Mobilization','Admin Bldg','Dining Bldg','Fire Station','Clinic','Comm Tower','Gas Station','CMS Shop','Masjid','Material Coord'];
-  const pl=[100,99.3,99.1,99.9,98.2,100,98.3,95.9,100,100];
-  const ac=[100,83.4,88.7,83.3,82.3,94.7,83.6,80.7,86.8,87.5];
+  const lb=['Mobilization','Admin Bldg','Dining Bldg','Fire Station','Clinic','Comm Tower','Gas Station','CMS Shop','Masjid','Mat. Coord'];
+  const pl=[100,100,99.82,100,99.15,100,99.22,100,100,100];
+  const ac=[100,87.05,90.21,85.12,84.62,94.71,85.77,80.66,87.83,88.42];
   new Chart(document.getElementById('radarChart'),{type:'radar',
     data:{labels:lb,datasets:[
-      {label:'Plan %',data:pl,borderColor:'rgba(0,119,182,0.7)',backgroundColor:'rgba(0,119,182,0.06)',pointBackgroundColor:BL,borderWidth:1.5,pointRadius:3},
+      {label:'Plan %',  data:pl,borderColor:'rgba(0,119,182,0.7)',backgroundColor:'rgba(0,119,182,0.06)',pointBackgroundColor:BL,borderWidth:1.5,pointRadius:3},
       {label:'Actual %',data:ac,borderColor:GD,backgroundColor:'rgba(224,123,32,0.08)',pointBackgroundColor:GD,borderWidth:2,pointRadius:3},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
@@ -673,13 +760,14 @@ bld.forEach(b=>{
 
 /* ── MANPOWER ── */
 (()=>{
-  const m=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11'];
-  const p=[0,2,49,134,122,109,214,324,385,385,381];
-  const a=[0,2,49,49,49,67,67,81,81,81,81];
+  const m=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'];
+  const p=[0,2,49,134,122,109,214,324,385,385,381,300];
+  const a=[0,2,49, 49, 49, 67, 67, 81, 81, 81, 81, 45];
   new Chart(document.getElementById('manpowerChart'),{type:'bar',
     data:{labels:m,datasets:[
-      {label:'Plan',data:p,backgroundColor:'rgba(0,119,182,0.32)',borderColor:BL,borderWidth:1,borderRadius:3},
-      {label:'Actual',data:a,backgroundColor:'rgba(10,158,138,0.55)',borderColor:GR,borderWidth:1,borderRadius:3},
+      {label:'Plan',  data:p,backgroundColor:'rgba(0,119,182,0.32)',borderColor:BL,borderWidth:1,borderRadius:3},
+      {label:'Actual',data:a,backgroundColor:a.map((v,i)=>v<p[i]*0.5?'rgba(214,40,57,0.55)':'rgba(10,158,138,0.55)'),
+        borderColor:a.map((v,i)=>v<p[i]*0.5?RD:GR),borderWidth:1,borderRadius:3},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},padding:8}}},
@@ -690,13 +778,14 @@ bld.forEach(b=>{
 
 /* ── WEEKLY CONSTRUCTION ── */
 (()=>{
-  const w=['Wk159','Wk160','Wk161','Wk162','Wk163','Wk164'];
-  const p=[0.88,0.82,0.78,0.25,0.28,0.28];
-  const a=[0.35,0.32,0.30,0.30,0.17,0.17];
+  const wks=['Wk166','Wk167','Wk168','Wk169','Wk170','Wk171'];
+  const p=[0.15,0.15,0.48,0.31,0.118,0.145];
+  const a=[0.17,0.165,0.17,0.165,0.136,0.131];
   new Chart(document.getElementById('weeklyChart'),{type:'bar',
-    data:{labels:w,datasets:[
-      {label:'Plan %',data:p,backgroundColor:'rgba(0,119,182,0.32)',borderColor:BL,borderWidth:1,borderRadius:3},
-      {label:'Actual %',data:a,backgroundColor:'rgba(224,123,32,0.55)',borderColor:GD,borderWidth:1,borderRadius:3},
+    data:{labels:wks,datasets:[
+      {label:'Plan %',  data:p,backgroundColor:'rgba(0,119,182,0.32)',borderColor:BL,borderWidth:1,borderRadius:3},
+      {label:'Actual %',data:a,backgroundColor:a.map((v,i)=>v>=p[i]?'rgba(10,158,138,0.6)':'rgba(224,123,32,0.55)'),
+        borderColor:a.map((v,i)=>v>=p[i]?GR:GD),borderWidth:1,borderRadius:3},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9}}}},
@@ -705,41 +794,45 @@ bld.forEach(b=>{
   });
 })();
 
-/* ── BUILDING HORIZONTAL BAR ── */
+/* ── BUILDING CHART (Top 16 with plan) ── */
 (()=>{
-  const b=bld.slice(0,16);
+  const top=bld.filter(b=>b.p!==null).slice(0,16);
   new Chart(document.getElementById('buildingChart'),{type:'bar',
     data:{
-      labels:b.map(x=>x.n.length>20?x.n.slice(0,20)+'…':x.n),
+      labels:top.map(x=>x.n.length>22?x.n.slice(0,22)+'…':x.n),
       datasets:[
-        {label:'Plan %',data:b.map(x=>x.p),backgroundColor:'rgba(0,119,182,0.38)',borderColor:BL,borderWidth:1,borderRadius:3},
-        {label:'Actual %',data:b.map(x=>x.a),
-          backgroundColor:b.map(x=>x.a>=x.p?'rgba(10,158,138,0.55)':x.a>=x.p-10?'rgba(224,123,32,0.55)':'rgba(214,40,57,0.55)'),
-          borderColor:b.map(x=>x.a>=x.p?GR:x.a>=x.p-10?GD:RD),borderWidth:1,borderRadius:3},
+        {label:'Plan %',  data:top.map(x=>x.p),backgroundColor:'rgba(0,119,182,0.38)',borderColor:BL,borderWidth:1,borderRadius:3},
+        {label:'Actual %',data:top.map(x=>x.a),
+          backgroundColor:top.map(x=>x.a>=x.p?'rgba(10,158,138,0.6)':x.a>=x.p-10?'rgba(224,123,32,0.6)':'rgba(214,40,57,0.6)'),
+          borderColor:top.map(x=>x.a>=x.p?GR:x.a>=x.p-10?GD:RD),borderWidth:1,borderRadius:3},
       ]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},
-      scales:{x:{grid:{color:grid},ticks:{font:{size:9},callback:v=>v+'%'},min:0,max:112},
-              y:{grid:{display:false},ticks:{font:{size:9}}}}}
+      scales:{
+        x:{grid:{color:grid},ticks:{font:{size:9},callback:v=>v+'%'},min:0,max:112},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }}
   });
 })();
 
-/* ── CONSTRUCTION FRONTS ── */
+/* ── FRONTS CHART ── */
 (()=>{
-  const lb=['MOB & TCF','Underground','Admin Bldg','Dining Bldg','Fire Station','Clinic','CMS Bldg','Masjid','Sanitary Lift','Mat. Coord'];
-  const fp=[100,100,99.3,99.1,99.9,98.2,95.9,100,99.4,100];
-  const fa=[100,99.2,83.4,88.7,83.3,82.3,80.7,86.8,64.6,87.5];
+  const lb=['MOB & TCF','Underground','Admin Bldg','Dining Bldg','Fire Station','Clinic','CMS Bldg','Masjid','Sanitary Lift','Tie In Conn.'];
+  const fp=[100,100,100,99.82,100,99.15,100,100,100,59.15];
+  const fa=[100,99.41,87.05,90.21,85.12,84.62,80.66,87.83,67.12,80.00];
   new Chart(document.getElementById('frontsChart'),{type:'bar',
     data:{labels:lb,datasets:[
-      {label:'Cum Plan %',data:fp,backgroundColor:'rgba(0,119,182,0.38)',borderColor:BL,borderWidth:1,borderRadius:4},
+      {label:'Cum Plan %',  data:fp,backgroundColor:'rgba(0,119,182,0.38)',borderColor:BL,borderWidth:1,borderRadius:4},
       {label:'Cum Actual %',data:fa,
-        backgroundColor:fa.map((v,i)=>v>=fp[i]?'rgba(10,158,138,0.55)':v>=fp[i]-10?'rgba(224,123,32,0.55)':'rgba(214,40,57,0.55)'),
+        backgroundColor:fa.map((v,i)=>v>=fp[i]?'rgba(10,158,138,0.6)':v>=fp[i]-10?'rgba(224,123,32,0.6)':'rgba(214,40,57,0.6)'),
         borderColor:fa.map((v,i)=>v>=fp[i]?GR:v>=fp[i]-10?GD:RD),borderWidth:1,borderRadius:4},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:8},maxRotation:28}},
-              y:{grid:{color:grid},ticks:{font:{size:9},callback:v=>v+'%'},min:0,max:115}}}
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:8},maxRotation:28}},
+        y:{grid:{color:grid},ticks:{font:{size:9},callback:v=>v+'%'},min:0,max:115}
+      }}
   });
 })();
 
@@ -748,11 +841,13 @@ bld.forEach(b=>{
   new Chart(document.getElementById('engDonut'),{type:'doughnut',
     data:{labels:['Mobilization','30% Design','60% Design','90% Design','IFC Package'],
       datasets:[{data:[300,9048,28120,29349,5266],
-        backgroundColor:['rgba(10,158,138,0.8)','rgba(0,180,216,0.8)','rgba(0,119,182,0.8)','rgba(224,123,32,0.8)','rgba(214,40,57,0.65)'],
+        backgroundColor:['rgba(10,158,138,0.82)','rgba(0,180,216,0.82)','rgba(0,119,182,0.82)','rgba(224,123,32,0.82)','rgba(214,40,57,0.68)'],
         borderColor:'#fff',borderWidth:3}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
-      plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},padding:8}},
-        tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw.toLocaleString()} hrs`}}}}
+      plugins:{
+        legend:{position:'bottom',labels:{boxWidth:10,font:{size:9},padding:8}},
+        tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw.toLocaleString()} hrs`}}
+      }}
   });
 })();
 
@@ -763,7 +858,7 @@ window.addEventListener('load',()=>{
       const t=el.style.width;el.style.width='0';
       setTimeout(()=>{el.style.width=t;},100);
     });
-  },300);
+  },350);
 });
 </script>
 </body>
